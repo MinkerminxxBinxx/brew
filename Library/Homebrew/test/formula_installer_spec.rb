@@ -258,8 +258,12 @@ RSpec.describe FormulaInstaller do
   end
 
   describe "#forbidden_tap_check" do
+    before do
+      allow(Homebrew::EnvConfig).to receive(:forbidden_taps).and_return("homebrew/forbidden")
+    end
+
     it "raises on forbidden tap on formula" do
-      ENV["HOMEBREW_FORBIDDEN_TAPS"] = f_tap = "homebrew/forbidden"
+      f_tap = "homebrew/forbidden"
       f_name = "homebrew-forbidden-tap"
       f_path = Tap.fetch(f_tap).new_formula_path(f_name)
       f_path.parent.mkpath
@@ -282,7 +286,7 @@ RSpec.describe FormulaInstaller do
     end
 
     it "raises on forbidden tap on dependency" do
-      ENV["HOMEBREW_FORBIDDEN_TAPS"] = dep_tap = "homebrew/forbidden"
+      dep_tap = "homebrew/forbidden"
       dep_name = "homebrew-forbidden-dependency-tap"
       dep_path = Tap.fetch(dep_tap).new_formula_path(dep_name)
       dep_path.parent.mkpath
@@ -310,7 +314,7 @@ RSpec.describe FormulaInstaller do
 
       expect do
         fi.forbidden_tap_check
-      end.to raise_error(CannotInstallFormulaError, /but the #{dep_tap} tap was forbidden/)
+      end.to raise_error(CannotInstallFormulaError, /from the #{dep_tap} tap but/)
     ensure
       dep_path.parent.parent.rmtree
     end
