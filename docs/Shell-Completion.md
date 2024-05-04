@@ -1,3 +1,7 @@
+
+
+https://github.com/Homebrew/brew/assets/168843987/a9160505-f988-4538-8bab-a2eea1fe2e7a
+
 # `brew` Shell Completion
 
 Homebrew comes with completion definitions for the `brew` command. Some packages also provide completion definitions for their own programs.
